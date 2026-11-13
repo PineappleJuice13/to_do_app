@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_app/class/to_do.dart';
-import 'package:to_do_app/screens/home_screen.dart';
-import 'package:to_do_app/widgets/navigation_bar.dart';
 
 class CreationScreen extends StatefulWidget {
   const new({super.key});
@@ -63,6 +61,9 @@ class _CreationScreenState extends State<CreationScreen> {
                     ),
                 ),
 
+              // Spacing
+              SizedBox(height: screenHeight * 0.02),
+
               // Slider
                 Slider(
                   value: newValue,
@@ -74,8 +75,15 @@ class _CreationScreenState extends State<CreationScreen> {
                   min: 1,
                   max: 4,
                   divisions: 3,
-                  // Prevents label from showing double
-                  label: newValue.round().toString(),
+                  // Displays moods
+                  label: 
+                  switch (newValue.round()) {
+                    1 => "Happy",
+                    2 => "Meh",
+                    3 => "Sad",
+                    4 => "Mad",
+                    _ => "Unknown"
+                  }
                 ),
 
               // Due Date
@@ -114,26 +122,6 @@ class _CreationScreenState extends State<CreationScreen> {
                   ),
                 ),
 
-              // // Start Date
-              //   ElevatedButton(
-              //     onPressed: () async {
-              //       final DateTime? dateTime2 = await showDatePicker(
-              //         context: context,
-              //         initialDate: selectedStartDate,
-              //         firstDate: DateTime(2025),
-              //         lastDate: DateTime(3000),
-              //       );
-
-              //         if (dateTime2 != null) {
-              //           setState(() {
-              //             selectedStartDate = dateTime2;
-              //           });
-              //         }
-
-              //     }, 
-              //     child: Text("Choose Start Date"),
-              //   ),
-
               // Spacing
               SizedBox(height: screenHeight * 0.05),
 
@@ -143,50 +131,38 @@ class _CreationScreenState extends State<CreationScreen> {
                   onPressed: () {
                     // When button is pressed create task object
                       ToDo usersTask =                       
-                      ToDo(title: _inputTitle, 
-                      description: _inputTitle, 
-                      dueDate: _inputDueDate,
-                      mood: _inputMood.round());
+                      ToDo(
+                        title: _titleController.text, 
+                        description: _descController.text, 
+                        dueDate: selectedDueDate,
+                        mood: newValue.round()
+                      );
 
                     // New task is pushed to Home screen
-                    //   Navigator.pushReplacement(
-                    //   context, 
-                    //   MaterialPageRoute(
-                    //   builder: (context) => HomeScreen(
-                    //   newTasks: usersTask,)
-                    //   ),
-                    // );
-                    
-                    setState(() {
-                      _inputTitle = _titleController.text;
-                      _inputDesc = _descController.text;
-                      _inputMood = newValue.round();
-                      _inputDueDate = selectedDueDate;
-                      // _inputStartDate = selectedStartDate;
+                    Navigator.pop(context, usersTask);
 
                     
-                    });
+                    // setState(() {
+                    //   _inputTitle = _titleController.text;
+                    //   _inputDesc = _descController.text;
+                    //   _inputMood = newValue.round();
+                    //   _inputDueDate = selectedDueDate;
+
+                    // });
                   }, 
 
                   child: Text('Complete')
                 ),
 
-                Text('Title Entered: $_inputTitle'),
-                Text('Desc entered: $_inputDesc'),
-                Text('Slider entered: $_inputMood'),
-                Text('Due Date entered: $_inputDueDate'),
-                // Text('Start Date enetered: $_inputStartDate'),
+                // Text('Title Entered: $_inputTitle'),
+                // Text('Desc entered: $_inputDesc'),
+                // Text('Slider entered: $_inputMood'),
+                // Text('Due Date entered: $_inputDueDate'),
 
-                // Text("${selectedDueDate.year} - ${selectedDueDate.month} - ${selectedDueDate.day}")
               ]
             ),
           ),
         ),
-
-        bottomNavigationBar:
-          MyNavigationBar(
-            selectedIndex: 1
-          ),
       ),
     );
   }

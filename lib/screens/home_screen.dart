@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:to_do_app/screens/task_creation_screen.dart';
+import 'package:to_do_app/widgets/task_card.dart';
 import '../widgets/navigation_bar.dart';
 import '../widgets/stats_card.dart';
+import '../class/to_do.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -13,6 +16,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   // Tracks currently selected nav item
   int selectedIndex = 0;
+  final List<ToDo> usersTasks = [];
 
   @override
   Widget build(BuildContext context) {
@@ -22,22 +26,50 @@ class _HomeScreenState extends State<HomeScreen> {
     final double screenHeight = MediaQuery.of(context).size.height;
 
 
-    return MaterialApp(
-      home: Scaffold(
-        body: 
-        // Call Stats Card Widget
-        MyStatsCard(
-            screenWidth: screenWidth, 
-            screenHeight: screenHeight
-          ),
+  return Scaffold(
+    appBar: AppBar(
+    title: const Text("To Do List",
+      style: TextStyle(
+        fontWeight: FontWeight.bold
+      ),
+    ),
 
-        bottomNavigationBar: 
-        // Call Stats Card Widget
-        MyNavigationBar(
-          selectedIndex: 0
+      backgroundColor: const Color.fromARGB(255, 242, 171, 255),
+    ),
+    
+    body: Column(
+      children: [
+      // Call Stats Card Widget
+        MyStatsCard(
+          screenWidth: screenWidth,
+          screenHeight: screenHeight,
         ),
-          
+
+      // List to display cards
+        Expanded(
+          child: ListView.builder(
+            itemCount: usersTasks.length,
+            itemBuilder: (context, index) {
+              return MyTaskCard(
+                newTask: usersTasks[index],
+              );
+            },
+          ),
+        ),
+      ],
+    ),
+
+    // Bottom Navigation Bar
+      bottomNavigationBar: MyNavigationBar(
+        selectedIndex: selectedIndex,
+        onTaskCreation: (newTask) {
+          setState(() {
+            usersTasks.add(newTask);
+          });
+        },
       ),
     );
   }
 }
+
+        

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_app/screens/home_screen.dart';
 import 'package:to_do_app/screens/task_creation_screen.dart';
+import '../class/to_do.dart';
 
 // Widget displays the navigation bar 
 class MyNavigationBar extends StatelessWidget {
   // Stores selected nav item here
   final int selectedIndex;
+  final Function(ToDo) onTaskCreation;
 
   // Callback function
   // Selecting different nav item
@@ -16,7 +18,7 @@ class MyNavigationBar extends StatelessWidget {
   const MyNavigationBar({
     super.key,
     required this.selectedIndex,
-    // required this.onNavSelected
+    required this.onTaskCreation,
   });
 
   @override
@@ -24,9 +26,7 @@ class MyNavigationBar extends StatelessWidget {
     return NavigationBar(
       // Store current screen index
       selectedIndex: selectedIndex,
-      // onDestinationSelected: onNavSelected,
-
-      onDestinationSelected: (int index) {
+      onDestinationSelected: (int index) async {
         // User cannot navigate to screen theyre already on
         if (index == selectedIndex) {
           return;
@@ -43,14 +43,23 @@ class MyNavigationBar extends StatelessWidget {
         }
 
         if (index == 1) {
-          Navigator.pushReplacement(
-            context, 
-            MaterialPageRoute(builder: (context) => CreationScreen()
-            )
+          final ToDo? newTask = await Navigator.push<ToDo>(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const CreationScreen()
+              )
           );
+
+          if (newTask != null) {
+            onTaskCreation(newTask);
+          }
+
+          // Navigator.pushReplacement(
+          //   context, 
+          //   MaterialPageRoute(builder: (context) => CreationScreen()
+          //   )
+          // );
         }
-
-
       },
       
      
