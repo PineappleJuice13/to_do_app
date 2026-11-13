@@ -3,7 +3,7 @@ class ToDo {
   String description;
   DateTime dueDate;
   DateTime? startDate;
-  int? mood; 
+  int mood; 
 
   // Constructor \\
   // Only certain arguments are required to create a todo object
@@ -12,7 +12,7 @@ class ToDo {
     required this.description, 
     required this.dueDate, 
     this.startDate, 
-    this.mood
+    required this.mood
     });
 
 
@@ -22,7 +22,7 @@ class ToDo {
   String get getDesc => description;
   DateTime get getDueDate => dueDate;
   DateTime? get getStartDate => startDate;
-  int? get getMood => mood;
+  int get getMood => mood;
 
   // SETTERS
   set setTitle(String value) => title = value;

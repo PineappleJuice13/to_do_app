@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_app/widgets/navigation_bar.dart';
-import 'package:to_do_app/widgets/stats_card.dart';
+import '../widgets/navigation_bar.dart';
+import '../widgets/stats_card.dart';
+
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const new({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -20,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
 
+
     return MaterialApp(
       home: Scaffold(
         body: 
@@ -32,16 +34,10 @@ class _HomeScreenState extends State<HomeScreen> {
         bottomNavigationBar: 
         // Call Stats Card Widget
         MyNavigationBar(
-          selectedIndex: selectedIndex,
-
-          onNavSelected: (int index){
-              setState(() {
-                selectedIndex = index;
-              });
-            }
-          ),
-          
+          selectedIndex: 0
         ),
+          
+      ),
     );
   }
 }
