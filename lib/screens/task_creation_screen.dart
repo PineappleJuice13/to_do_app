@@ -94,7 +94,8 @@ class _CreationScreenState extends State<CreationScreen> {
                     final DateTime? dateTime = await showDatePicker(
                       context: context,
                       initialDate: selectedDueDate,
-                      firstDate: DateTime(2025),
+                      // Prevents user from selecting something in the past
+                      firstDate: selectedDueDate,
                       lastDate: DateTime(3000),
                     );
 
@@ -135,7 +136,8 @@ class _CreationScreenState extends State<CreationScreen> {
                         title: _titleController.text, 
                         description: _descController.text, 
                         dueDate: selectedDueDate,
-                        mood: newValue.round()
+                        mood: newValue.round(),
+                        isCompleted: false
                       );
 
                     // New task is pushed to Home screen

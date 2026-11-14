@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_app/screens/task_creation_screen.dart';
 import 'package:to_do_app/widgets/task_card.dart';
 import '../widgets/navigation_bar.dart';
 import '../widgets/stats_card.dart';
@@ -36,13 +35,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
       backgroundColor: const Color.fromARGB(255, 242, 171, 255),
     ),
-    
     body: Column(
       children: [
       // Call Stats Card Widget
         MyStatsCard(
           screenWidth: screenWidth,
           screenHeight: screenHeight,
+          allTasks: usersTasks,
         ),
 
       // List to display cards
@@ -52,6 +51,16 @@ class _HomeScreenState extends State<HomeScreen> {
             itemBuilder: (context, index) {
               return MyTaskCard(
                 newTask: usersTasks[index],
+                onRemove: () {
+                  setState(() {
+                    usersTasks.removeAt(index);
+                  });
+                },
+                onCompletion: () {
+                  setState(() {
+                    usersTasks[index].isCompleted = true;
+                  });
+                }
               );
             },
           ),

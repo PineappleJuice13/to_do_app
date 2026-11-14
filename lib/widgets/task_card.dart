@@ -4,10 +4,14 @@ import '../class/to_do.dart';
 
 class MyTaskCard extends StatelessWidget {
   final ToDo newTask;
+  final VoidCallback onRemove;
+  final VoidCallback onCompletion;
 
   const MyTaskCard({
     super.key,
-    required this.newTask
+    required this.newTask,
+    required this.onRemove,
+    required this.onCompletion
   });
 
 
@@ -17,12 +21,14 @@ class MyTaskCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(15),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             
             // Title and due date
-            Column(
+            // Expanded takes up as much of the horizontal space
+            Expanded(
+              child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("Title: ${newTask.title}"),
@@ -32,8 +38,16 @@ class MyTaskCard extends StatelessWidget {
                   "${newTask.dueDate.month} - "
                   "${newTask.dueDate.year}",
                 ),
+                
+                // If text is to long ... appears
+                Text("Description: ${newTask.description}",
+                  maxLines: 4,
+                  overflow: TextOverflow.ellipsis,
+                )
               ],
             ),
+          ),
+            
 
             // Mood emoji
             switch (newTask.mood) {
@@ -61,11 +75,19 @@ class MyTaskCard extends StatelessWidget {
             },
 
           // Complete Button 
-          // Romves task from list
-            // ElevatedButton(
-            //   onPressed: onPressed, 
-            //   child: child
-            // )
+          IconButton(
+              onPressed: onCompletion, 
+              icon: Icon(Icons.check_box),
+              tooltip: "Complete Task",
+              
+              ),
+
+          // Remove Task
+            IconButton(
+              onPressed: onRemove, 
+              icon: Icon(Icons.remove_circle),
+              tooltip: ("Remove Task"),
+            ),
           ],
         ),
       ),
