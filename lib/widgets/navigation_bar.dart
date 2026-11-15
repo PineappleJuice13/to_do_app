@@ -7,11 +7,8 @@ import '../class/to_do.dart';
 class MyNavigationBar extends StatelessWidget {
   // Stores selected nav item here
   final int selectedIndex;
+  // Function only accepts ToDo Object
   final Function(ToDo) onTaskCreation;
-
-  // Callback function
-  // Selecting different nav item
-  // final Function(int) onNavSelected;
 
   // Constructor
   // Requires both values from the parent widget
@@ -34,15 +31,15 @@ class MyNavigationBar extends StatelessWidget {
 
         // Navigate to the home screen
         if (index == 0) {
-          // Pushes the new route and gets rid of the previous one
-          Navigator.pushReplacement(
-            context, 
-            MaterialPageRoute(builder: (context) => const HomeScreen()
-            )
-          );
+          // Instead of pushing pop
+          // Pop goes back to previous screen
+          Navigator.pop(context);
         }
 
+      // Navigate to the task creation screen
         if (index == 1) {
+          // The new task thats created in the creation screen 
+          // is stored in newTask
           final ToDo? newTask = await Navigator.push<ToDo>(
             context,
             MaterialPageRoute(
@@ -50,20 +47,15 @@ class MyNavigationBar extends StatelessWidget {
               )
           );
 
+        // If the new task is created at it to list
           if (newTask != null) {
             onTaskCreation(newTask);
           }
-
-          // Navigator.pushReplacement(
-          //   context, 
-          //   MaterialPageRoute(builder: (context) => CreationScreen()
-          //   )
-          // );
         }
       },
       
      
-      // Defining each routes icon and labels
+      // Defining each screens icon and labels
       destinations: const [
         // Index 0
         NavigationDestination(

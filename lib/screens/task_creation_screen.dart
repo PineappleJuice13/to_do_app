@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_app/class/to_do.dart';
+import '../widgets/navigation_bar.dart';
 
 class CreationScreen extends StatefulWidget {
   const new({super.key});
@@ -19,9 +20,7 @@ class _CreationScreenState extends State<CreationScreen> {
   double newValue = 1;
 
   DateTime selectedDueDate = DateTime.now();
-
   String errorMsg = "";
-
 
 
   @override
@@ -29,8 +28,7 @@ class _CreationScreenState extends State<CreationScreen> {
     // final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
 
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: Text("Task Creation",
             style: TextStyle(
@@ -59,27 +57,35 @@ class _CreationScreenState extends State<CreationScreen> {
               // Spacing
               SizedBox(height: screenHeight * 0.02),
 
-              // Slider
-                Slider(
-                  value: newValue,
-                  // When currentValue changes update new value
-                  onChanged: (currentValue) {
-                    setState(() => newValue = currentValue);
-                  },
-                  // Sets min and max values
-                  min: 1,
-                  max: 4,
-                  divisions: 3,
-                  // Displays moods
-                  label: 
-                  switch (newValue.round()) {
-                    1 => "Happy",
-                    2 => "Meh",
-                    3 => "Sad",
-                    4 => "Mad",
-                    _ => "Unknown"
-                  }
+              // Row - Text and Slider
+              Row(children: [
+                Text("Mood: "),
+                Expanded(child: 
+                    Slider(
+                    value: newValue,
+                    // When currentValue changes update new value
+                    onChanged: (currentValue) {
+                      setState(() => newValue = currentValue);
+                    },
+                    // Sets min and max values
+                    min: 1,
+                    max: 4,
+                    divisions: 3,
+                    // Displays moods
+                    label: 
+                    switch (newValue.round()) {
+                      1 => "Happy",
+                      2 => "Meh",
+                      3 => "Sad",
+                      4 => "Mad",
+                      _ => "Unknown"
+                    }
+                  ),
                 ),
+              ],
+            ),
+                
+              SizedBox(height: screenHeight * 0.02),
 
               // Due Date
                 ElevatedButton(
@@ -142,13 +148,17 @@ class _CreationScreenState extends State<CreationScreen> {
                           isCompleted: false
                         );
 
-                      // New task is pushed to Home screen
+                      // Navigator goes back to previous scene (Always homescreen)
+                      // New task is sent to Home screen
                       Navigator.pop(context, usersTask);
                     }
 
                   }, 
                   child: Text('Complete')
                 ),
+
+            // Adds space  
+            SizedBox(height: screenHeight * 0.02),
 
             // When error msg is not empty show text
                 if (errorMsg.isNotEmpty) 
@@ -161,7 +171,15 @@ class _CreationScreenState extends State<CreationScreen> {
             ),
           ),
         ),
+
+    // Bottom Navigation Bar
+      bottomNavigationBar: MyNavigationBar(
+        selectedIndex: 1,
+        // Empty callback function is called
+        onTaskCreation: (_) {},
+
       ),
-    );
+
+      );
   }
 }

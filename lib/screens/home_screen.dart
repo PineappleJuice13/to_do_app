@@ -65,7 +65,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
               return MyTaskCard(
                 newTask: task,
+                // onRemove lets the homescreen 
+                // know a task needs to be removed 
                 onRemove: () {
+                  // setState lets widget something changed
+                  // and to rebuild to reflect that change
                   setState(() {
                     usersTasks.remove(task);
                   });
@@ -85,6 +89,8 @@ class _HomeScreenState extends State<HomeScreen> {
     // Bottom Navigation Bar
       bottomNavigationBar: MyNavigationBar(
         selectedIndex: selectedIndex,
+        // Gets the new task and adds it to list
+        // State is set to rebuild the screen
         onTaskCreation: (newTask) {
           setState(() {
             usersTasks.add(newTask);

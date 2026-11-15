@@ -4,6 +4,8 @@ import '../class/to_do.dart';
 
 class MyTaskCard extends StatelessWidget {
   final ToDo newTask;
+  // Callback functions that take no values
+  // Return nothing
   final VoidCallback onRemove;
   final VoidCallback onCompletion;
 
@@ -25,11 +27,11 @@ class MyTaskCard extends StatelessWidget {
 
       child: Padding(
         padding: const EdgeInsets.all(15),
+        // One row and column
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            
             // Title and due date
             // Expanded takes up as much of the horizontal space
             Expanded(
@@ -53,8 +55,8 @@ class MyTaskCard extends StatelessWidget {
             ),
           ),
             
-
             // Mood emoji
+            // Switch case for assigning emojis
             switch (newTask.mood) {
               1 => Image.asset(
                   'assets/happy_emoji.png',
@@ -76,6 +78,8 @@ class MyTaskCard extends StatelessWidget {
                   height: 50,
                   width: 50,
                 ),
+            // If task.mood is something else then
+            // Display a empty SizedBox
               _ => const SizedBox(),
             },
 
@@ -91,7 +95,7 @@ class MyTaskCard extends StatelessWidget {
             IconButton(
               onPressed: onRemove, 
               icon: Icon(Icons.remove_circle),
-              tooltip: ("Remove Task"),
+              tooltip: "Remove Task",
             ),
           ],
         ),

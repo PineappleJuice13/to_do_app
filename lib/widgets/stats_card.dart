@@ -9,6 +9,8 @@ class MyStatsCard extends StatelessWidget {
   final List<ToDo> allTasks;
 
   final bool showIncompletedTasks;
+  // A callback function that accepts a bool
+  // Returns nothing
   final ValueChanged<bool> onFliterChange;
 
   // Parent must send the screens height and width
@@ -30,6 +32,10 @@ class MyStatsCard extends StatelessWidget {
     return SizedBox(
       height: screenHeight * 0.4,
       width: screenWidth,
+      // One column that contains 2 rows
+      // Row one - Percent of completed task container
+      //         - Todays date container
+      // Row two - Switch to filter Task
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.start,
