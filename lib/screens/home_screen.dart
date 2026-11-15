@@ -16,6 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // Tracks currently selected nav item
   int selectedIndex = 0;
   final List<ToDo> usersTasks = [];
+  bool showIncompletedTasks = false;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +25,10 @@ class _HomeScreenState extends State<HomeScreen> {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
 
+    // Creating a flitered list
+    final displayTasks = showIncompletedTasks
+    ? usersTasks.where((task) => !task.isCompleted).toList()
+    : usersTasks;
 
   return Scaffold(
     appBar: AppBar(
@@ -42,23 +47,32 @@ class _HomeScreenState extends State<HomeScreen> {
           screenWidth: screenWidth,
           screenHeight: screenHeight,
           allTasks: usersTasks,
+          showIncompletedTasks: showIncompletedTasks,
+          onFliterChange: (value) {
+            setState(() {
+              showIncompletedTasks = value;
+            });
+          },
         ),
 
-      // List to display cards
+      // List to display tasks
+      // Expanded makes tasks scrollable
         Expanded(
           child: ListView.builder(
-            itemCount: usersTasks.length,
+            itemCount: displayTasks.length,
             itemBuilder: (context, index) {
+            final task = displayTasks[index];
+
               return MyTaskCard(
-                newTask: usersTasks[index],
+                newTask: task,
                 onRemove: () {
                   setState(() {
-                    usersTasks.removeAt(index);
+                    usersTasks.remove(task);
                   });
                 },
                 onCompletion: () {
                   setState(() {
-                    usersTasks[index].isCompleted = true;
+                    task.isCompleted = true;
                   });
                 }
               );

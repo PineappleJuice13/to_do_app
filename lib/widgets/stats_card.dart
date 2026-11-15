@@ -8,12 +8,17 @@ class MyStatsCard extends StatelessWidget {
   final double screenWidth;
   final List<ToDo> allTasks;
 
+  final bool showIncompletedTasks;
+  final ValueChanged<bool> onFliterChange;
+
   // Parent must send the screens height and width
   const MyStatsCard({
     super.key,
     required this.screenWidth,
     required this.screenHeight,
-    required this.allTasks
+    required this.allTasks,
+    required this.showIncompletedTasks,
+    required this.onFliterChange
   });
 
 
@@ -25,11 +30,13 @@ class MyStatsCard extends StatelessWidget {
     return SizedBox(
       height: screenHeight * 0.4,
       width: screenWidth,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
         // Display percentage of tasks completed
+        Row(
+          children: [
           Container(
             height: screenHeight * 0.2,
             width: screenWidth * 0.3,
@@ -40,9 +47,12 @@ class MyStatsCard extends StatelessWidget {
               color: Colors.pink.shade100,
               borderRadius: BorderRadius.circular(10)
             ),
-            child: Text("Percent of Completed Tasks - ${completedTaskPercent(allTasks).round()}",
+            child: Text("Percent of Completed Task: \n${completedTaskPercent(allTasks).round()}%",
+            textAlign: TextAlign.center,
             style: TextStyle(
-              fontWeight: FontWeight.bold),
+              fontWeight: FontWeight.bold,
+              fontSize: 20
+              ),
             ),
           ),
 
@@ -57,15 +67,35 @@ class MyStatsCard extends StatelessWidget {
               color: Colors.purple.shade100,
               borderRadius: BorderRadius.circular(10)
             ),
-            child: Text("${date.day} - ${date.month} - ${date.year}",
+            child: Text("Todays Date: \n${date.day} - ${date.month} - ${date.year}",
+            textAlign: TextAlign.center,
               style: TextStyle(
-                fontWeight: FontWeight.bold
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
               ),
             ),
-            
           ),
-        ],
+        ], //Row children
       ),
+      
+      Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              padding: EdgeInsets.all(10),
+            ),
+              const Text("Show incomplete tasks only"),
+            
+            Switch(
+              value: showIncompletedTasks,
+              onChanged: onFliterChange,
+            )
+            
+          ], // Row children
+        ),
+      ],
+    ),
+      
     );
   }
 }

@@ -9,7 +9,7 @@ class ToDo {
   // Only certain arguments are required to create a todo object
   ToDo ({
     required this.title, 
-    required this.description, 
+    this.description = "", 
     required this.dueDate, 
     required this.mood,
     required this.isCompleted

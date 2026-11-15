@@ -18,15 +18,10 @@ class _CreationScreenState extends State<CreationScreen> {
   double currentValue = 2;
   double newValue = 1;
 
-  // Private variables that store users input
-  String _inputTitle = "";
-  String _inputDesc = "";
-  int _inputMood = 0;
-  DateTime _inputDueDate = DateTime.now();
-  // DateTime _inputStartDate = DateTime.now();
-
   DateTime selectedDueDate = DateTime.now();
-  // DateTime selectedStartDate = DateTime.now();
+
+  String errorMsg = "";
+
 
 
   @override
@@ -128,39 +123,40 @@ class _CreationScreenState extends State<CreationScreen> {
 
               // Submit Button
                 ElevatedButton(
-                  // When button is submitted set these values
                   onPressed: () {
-                    // When button is pressed create task object
-                      ToDo usersTask =                       
-                      ToDo(
-                        title: _titleController.text, 
-                        description: _descController.text, 
-                        dueDate: selectedDueDate,
-                        mood: newValue.round(),
-                        isCompleted: false
-                      );
+                    // If task is empty do not create a ToDo Object
+                      if (_titleController.text.isEmpty) {
+                        setState(() {
+                          errorMsg = "Title is empty.";
+                        });
+                      }
 
-                    // New task is pushed to Home screen
-                    Navigator.pop(context, usersTask);
+                      else {
+                        // When button is pressed create task object
+                        ToDo usersTask =                       
+                        ToDo(
+                          title: _titleController.text, 
+                          description: _descController.text, 
+                          dueDate: selectedDueDate,
+                          mood: newValue.round(),
+                          isCompleted: false
+                        );
 
-                    
-                    // setState(() {
-                    //   _inputTitle = _titleController.text;
-                    //   _inputDesc = _descController.text;
-                    //   _inputMood = newValue.round();
-                    //   _inputDueDate = selectedDueDate;
+                      // New task is pushed to Home screen
+                      Navigator.pop(context, usersTask);
+                    }
 
-                    // });
                   }, 
-
                   child: Text('Complete')
                 ),
 
-                // Text('Title Entered: $_inputTitle'),
-                // Text('Desc entered: $_inputDesc'),
-                // Text('Slider entered: $_inputMood'),
-                // Text('Due Date entered: $_inputDueDate'),
-
+            // When error msg is not empty show text
+                if (errorMsg.isNotEmpty) 
+                Text("Warning: ${errorMsg}",
+                  style: TextStyle(fontWeight: FontWeight.bold,
+                  color: Colors.red
+                  ),
+                ),
               ]
             ),
           ),

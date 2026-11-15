@@ -18,6 +18,11 @@ class MyTaskCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      // If task is completed
+      color: newTask.isCompleted
+      ? Colors.purple.shade100
+      : Colors.white,
+
       child: Padding(
         padding: const EdgeInsets.all(15),
         child: Row(
